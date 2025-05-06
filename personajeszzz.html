@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galería de Zenless Zone Zero</title>
+  <link rel="shortcut icon" href="Favoritos genshin/logo.jpg" type="image/png">
+  <style>
+    /* Estilo general del body */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #ececec, #ffffff);
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    
+    /* Barra de navegación fija */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(90deg, #2196f3, #21cbf3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      z-index: 1000;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Logo dentro de nav */
+    nav .logo {
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover; /* Ajusta la imagen al contenedor */
+    }
+
+    /* Enlaces del menú de navegación */
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+      padding: 8px 15px;
+      border-radius: 20px;
+      transition: background 0.3s, transform 0.3s ease;
+      font-size: 1.1em;
+    }
+
+    /* Efecto hover en enlaces nav */
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+    }
+
+    /* Elimina borde al enfocar enlaces */
+    nav a:focus {
+      outline: none;
+    }
+
+    /* Para empujar el contenido hacia abajo por nav fija */
+    .content {
+      padding-top: 60px;
+    }
+
+    /* Botón de retroceso hover */
+    .back-button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Título general */
+    h1 {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 2em;
+      color: #222;
+    }
+
+    /* Elementos interactivos */
+    .elemento {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .elemento:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      background-color: #f5f5f5;
+    }
+
+    .elemento:active,
+    .elemento:focus {
+      transform: scale(0.98);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      background-color: #e0e0e0;
+      outline: none;
+    }
+
+    .elemento::selection {
+      background-color: #007bff;
+      color: #ffffff;
+    }
+
+    /* Contenedor de tarjetas "hero" */
+    .hero-container {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      padding: 40px 20px;
+      background-color: #fff;
+    }
+
+    /* Tarjeta individual */
+    .hero {
+      position: relative;
+      width: 300px;
+      background-color: #fff;
+      padding: 30px 20px 20px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      border-radius: 15px;
+    }
+
+    /* Imagen cuadrada de tarjeta */
+    .square-image {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
+
+    /* Imagen circular superpuesta */
+    .circle-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid white;
+      position: absolute;
+      top: 160px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    /* Título en tarjeta hero */
+    .hero h1 {
+      margin-top: 50px;
+      font-size: 1.4em;
+      color: #222;
+      font-weight: 700;
+    }
+
+    /* Descripción en tarjeta hero */
+    .hero p {
+      font-size: 0.95em;
+      color: #555;
+      margin-top: 10px;
+    }
+
+    /* Sección de datos explicativos */
+    .datos {
+      text-align: center;
+      padding: 40px 20px;
+      background: #f9f9f9;
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .datos h2 {
+      margin-bottom: 10px;
+      color: #444;
+      font-size: 1.8em;
+    }
+
+    .datos p {
+      max-width: 700px;
+      margin: auto;
+      font-size: 16px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* Contenedor general de la galería estilo Pinterest */
+    .pinterest-gallery-section {
+      padding: 60px 20px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    /* Título galería */
+    .pinterest-gallery-section h1 {
+      font-size: 2em;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    /* Galería en columnas */
+    .pinterest-gallery {
+      column-count: 4;
+      column-gap: 15px;
+      padding: 0 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Imágenes en galería */
+    .pinterest-gallery img {
+      width: 100%;
+      margin-bottom: 15px;
+      border-radius: 12px;
+      display: block;
+      break-inside: avoid;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    /* Hover en imágenes */
+    .pinterest-gallery img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Responsividad de la galería */
+    @media (max-width: 1000px) {
+      .pinterest-gallery { column-count: 3; }
+    }
+
+    @media (max-width: 700px) {
+      .pinterest-gallery { column-count: 2; }
+    }
+
+    @media (max-width: 500px) {
+      .pinterest-gallery { column-count: 1; }
+    }
+
+    /* Sección de videos relacionados */
+    .videos-relacionados {
+      padding: 60px 20px;
+      background: #f0f8ff; /* suave tono celeste */
+      text-align: center;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin: 40px auto;
+      max-width: 1200px;
+    }
+
+    /* Título de la sección */
+    .videos-relacionados h2 {
+      font-size: 2em;
+      color: #1e3a8a;
+      margin-bottom: 30px;
+      position: relative;
+      display: inline-block;
+    }
+    .videos-relacionados h2::after {
+      content: "";
+      display: block;
+      width: 50%;
+      height: 4px;
+      background: #3b82f6;
+      margin: 8px auto 0;
+      border-radius: 2px;
+    }
+
+    /* Contenedor flexible de videos */
+    .video-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 25px;
+    }
+
+    /* Wrapper para cada iframe, para poder aplicar hover y responsivo */
+    .video-box {
+      position: relative;
+      width: 320px;
+      height: 180px;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+      transition: transform 0.3s, box-shadow 0.3s;
+      background: #000; /* fondo mientras carga */
+    }
+
+    /* Efecto hover sobre cada video */
+    .video-box:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+
+    /* Iframe dentro del wrapper */
+    .video-box iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 12px;
+    }
+
+    /* Adaptar responsivamente para pantallas pequeñas */
+    @media (max-width: 768px) {
+      .video-box {
+        width: 280px;
+        height: 158px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .videos-relacionados {
+        padding: 40px 10px;
+      }
+      .video-box {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+      }
+    }
+
+    /* Imágenes horizontales adicionales */
+    .horizontal-images {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 30px 20px;
+    }
+
+    .horizontal-images img {
+      width: 400px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .horizontal-images img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      background-color: #f0f0f0;
+    }
+
+    .horizontal-images img:active,
+    .horizontal-images img:focus {
+      transform: scale(0.97);
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+      background-color: #e0e0e0;
+      outline: none;
+    }
+
+    .horizontal-images img::selection {
+      background-color: #007bff;
+      color: #ffffff;
+    }
+  </style>
+  <script>
+    // Baraja las imágenes de la galería al azar
+    document.addEventListener('DOMContentLoaded', () => {
+      const galeria = document.getElementById('galeria');
+      const imagenes = Array.from(galeria.children);
+  
+      // Fisher-Yates shuffle
+      for (let i = imagenes.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [imagenes[i], imagenes[j]] = [imagenes[j], imagenes[i]];
+      }
+  
+      // Vaciar y volver a insertar en orden aleatorio
+      galeria.innerHTML = '';
+      imagenes.forEach(img => galeria.appendChild(img));
+    });
+  </script>  
+</head>
+<body>
+
+  <!-- Barra de navegación -->
+  <nav>
+    <div class="nav-left">
+      <img src="Favoritos genshin/logo.jpg" alt="Logo" class="logo">
+    </div>
+    <div class="nav-right">
+      <a href="#inicio">Inicio</a>
+      <a href="#info-pagina">Información</a>
+      <a href="#galeria">Galería</a>
+      <a href="#videos">Videos</a>
+      <a href="#imagenes">Imágenes Rectangulares</a>
+      <a href="Hoyoverse.html">Atras</a>
+    </div>
+  </nav>
+
+  <div class="content">
+    <h1 id="inicio">MIS PERSONAJES FAVORITOS DEL ZENLESS ZONE ZERO</h1>
+
+    <!-- CABECERAS EN FILA -->
+    <div class="hero-container" id="informacion">
+      <div class="hero elemento">
+        <img src="Favoritos genshin/Kujou Sara.jpg" alt="Imagen destacada" class="square-image">
+        <img src="Favoritos genshin/sara icon.jpg" alt="Imagen circular" class="circle-image">
+        <h1>Kujou Sara</h1>
+        <p>General de la Comisión Tenryou, leal a Raiden Shogun. Su fuerza y determinación la convierten en una guerrera destacada.</p>
+      </div>
+
+      <div class="hero elemento">
+        <img src="Favoritos genshin/Dehya.jpg" alt="Imagen destacada" class="square-image">
+        <img src="Favoritos genshin/dehya1.jpg" alt="Imagen circular" class="circle-image">
+        <h1>Dehya</h1>
+        <p>Mercenaria del Desierto de Sumeru y miembro de los Eremitas. Dehya es valiente, leal y conocida por proteger a los inocentes con honor.</p>
+      </div>
+
+      <div class="hero elemento">
+        <img src="Favoritos genshin/Mavuika.jpg" alt="Imagen destacada" class="square-image">
+        <img src="Favoritos genshin/mavuika1.jpg" alt="Imagen circular" class="circle-image">
+        <h1>Mavuika</h1>
+        <p>Mavuika representa el equilibrio entre poder y sabiduría en su lucha por la justicia.</p>
+      </div>
+    </div>
+
+    <!-- INFORMACIÓN SOBRE LA PÁGINA -->
+    <div class="datos" id="info-pagina">
+      <h2>Sobre esta Página</h2>
+      <p>Esta página fue creada como un espacio visual y temático para compartir imágenes, videos y detalles interesantes del universo de <strong>Genshin Impact</strong>. En ella se destacan personajes como <strong>Kujou Sara</strong>, <strong>Dehya</strong> y <strong>Navia</strong>, con galerías diseñadas al estilo Pinterest para una navegación atractiva y ordenada.</p>
+      <p>El objetivo principal es ofrecer una experiencia inmersiva y estética para los fans del juego, combinando elementos visuales, contenido informativo y recomendaciones útiles para jugadores nuevos y veteranos.</p>
+      <p>🔧 <strong>Tecnologías utilizadas</strong>: HTML5, CSS3, diseño responsive y embebido de multimedia (YouTube).</p>
+      <p>🌐 Esta web no tiene fines comerciales y ha sido desarrollada como proyecto educativo/personal para explorar la creatividad digital y el diseño web moderno.</p>
+    </div>
+
+    <!-- GALERÍA -->
+    <div class="pinterest-gallery-section">
+      <h1>Galería de Imágenes</h1>
+      <div class="pinterest-gallery" id="galeria">
+        <img src="Favoritos genshin/sara3.jpg" alt="Imagen 1">
+        <img src="Favoritos genshin/dehya2.jpg" alt="Imagen 2">
+        <img src="Favoritos genshin/mavuika4.jpg" alt="Imagen 3">
+        <img src="Favoritos genshin/sara2.jpg" alt="Imagen 4">
+        <img src="Favoritos genshin/mavuika2.jpg" alt="Imagen 5">
+        <img src="Favoritos genshin/dehya4.jpg" alt="Imagen 6">
+        <img src="Favoritos genshin/sara1.jpg" alt="Imagen 7">
+        <img src="Favoritos genshin/mavuika3.jpg" alt="Imagen 8">
+        <img src="Favoritos genshin/dehya3.jpg" alt="Imagen 9">
+      </div>
+    </div>    
+
+    <!-- VIDEOS RELACIONADOS -->
+    <div class="videos-relacionados" id="videos">
+      <h2>Videos Relacionados</h2>
+      <div class="video-container">
+        <div class="video-box">
+          <iframe src="https://www.youtube.com/embed/OZ8y3YXcevY" title="Video 1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="video-box">
+          <iframe src="https://www.youtube.com/embed/tLeeQQVao_w" title="Video 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="video-box">
+          <iframe src="https://www.youtube.com/embed/TveqedNumm8" title="Video 3" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>      
+
+    <!-- IMÁGENES RECTANGULARES -->
+    <div class="horizontal-images" id="imagenes">
+      <img src="Favoritos genshin/rectangulo/sara1.1.jpg" alt="Rectangular 1">
+      <img src="Favoritos genshin/rectangulo/mavuika1.jpg" alt="Rectangular 2">
+      <img src="Favoritos genshin/rectangulo/dehya1.jpg" alt="Rectangular 3">
+      <img src="Favoritos genshin/rectangulo/sara2.jpg" alt="Rectangular 4">
+      <img src="Favoritos genshin/rectangulo/mavuika2.jpg" alt="Rectangular 5">
+      <img src="Favoritos genshin/rectangulo/dehya2.jpg" alt="Rectangular 6">
+      <img src="Favoritos genshin/rectangulo/sara3.jpg" alt="Rectangular 7">
+      <img src="Favoritos genshin/rectangulo/mavuika3.jpg" alt="Rectangular 8">
+      <img src="Favoritos genshin/rectangulo/dehya3.jpg" alt="Rectangular 9">
+      <img src="Favoritos genshin/rectangulo/sara4.jpg" alt="Rectangular 10">
+      <img src="Favoritos genshin/rectangulo/mavuika4.jpg" alt="Rectangular 11">
+      <img src="Favoritos genshin/rectangulo/dehya4.jpg" alt="Rectangular 12">
+    </div>
+  </div>
+
+</body>
+</html>

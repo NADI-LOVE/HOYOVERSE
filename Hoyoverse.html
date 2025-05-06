@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="Imagenes inicio/image.png" type="image/png">
+  <meta http-equiv="Keywords" content="Waifus, Personajes, Hoyoverse, Gachas">
+  <meta name="Descripción" content="Esta es una pagina para mostrar mis personajes favritos de los juego de hoyoverse">
+  <title>Galería de Personajes Favoritos</title>
+  <style>
+    /* Estilos optimizados */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #e3f2fd, #ffffff);
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    /* Navbar */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: linear-gradient(90deg, #2196f3, #21cbf3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      z-index: 1000;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .logo {
+      height: 50px;
+      border-radius: 50%;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+      padding: 10px 15px;
+      border-radius: 20px;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .nav-links a:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+    }
+
+    /* Secciones */
+    section {
+        padding: 50px 10px 30px;
+        text-align: center;
+    }      
+
+    h1, h2 {
+      color: #0d47a1;
+    }
+
+    /* Estilos especiales para la sección de inicio */
+    #inicio .inicio-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: none;
+      box-shadow: none;
+    }
+
+    #inicio .inicio-img {
+      width: 80%;
+      width: 800px;
+      height: 800;
+      margin: auto;
+      height: auto;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    p {
+      padding: 5px;
+      font-size: 16px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* Sección de videos */
+    #video {
+      background-color: #f0f8ff;
+      padding: 20px;
+      border-radius: 15px;
+      margin: 40px auto;
+      max-width: 1200px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    /* Contenedor de todos los videos como fila */
+    #video .video-item {
+      display: inline-block;
+      vertical-align: top;
+      width: 300px;
+      margin: 10px;
+    }
+
+    /* Títulos individuales */
+    #video h2 {
+      font-size: 1.1em;
+      color: #1a1a1a;
+      margin-bottom: 10px;
+    }
+
+    /* Contenedor del iframe */
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+
+    /* El video ocupa todo el contenedor */
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 10px;
+    }
+
+    #video .more-link {
+      display: block;              /* Hace que ocupe toda la fila */
+      margin: 30px auto 0 auto;    /* Espacio arriba y centrado */
+      font-size: 1.1em;
+      color: #0077cc;
+      text-decoration: none;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    #video .more-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Galería */
+    .gallery, .mas_imagenes {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .image-container {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      width: 250px;
+    }
+
+    .image-container img {
+      width: 100%;
+      height: 180px;
+      object-fit: contain; /* <-- cambio importante */
+      background-color: #fff; /* opcional: fondo blanco para áreas vacías */
+    }
+
+    .image-container:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    /* Contenedor principal del slider */
+    .slider {
+      position: relative;
+      max-width: 500px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
+
+    /* Contenedor de todas las imágenes en fila */
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      width: 100%; /* Ajustado con JS dinámicamente */
+    }
+
+    /* Imágenes individuales */
+    .slides img {
+      width: 100%;
+      height: 300px;
+      object-fit: contain; /* ← Esto evita el recorte */
+      background-color: white; /* ← Opcional para el fondo */
+      flex-shrink: 0;
+    }
+
+    /* Botones de navegación */
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 30px;
+      color: white;
+      background: rgba(0, 0, 0, 0.5);
+      border: none;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .prev { left: 10px; }
+    .next { right: 10px; }
+
+    /* Puntos de navegación (dots) */
+    .dots {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .dot {
+      cursor: pointer;
+      height: 15px;
+      width: 15px;
+      margin: 0 5px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+    }
+
+    .dot.active,
+    .dot:hover {
+      background-color: #717171;
+    }
+
+    /* Contacto */
+    .contact-section {
+      background: linear-gradient(90deg, #2196f3, #21cbf3);
+      color: white;
+      padding: 40px 20px;
+    }
+
+    .contact-section h2 {
+      margin-bottom: 20px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .gallery, .mas_imagenes {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      nav {
+        flex-direction: column;
+      }
+
+      .nav-links {
+        margin-top: 10px;
+      }
+    }
+  </style>
+
+  <script>
+    let index = 0;
+    function moverSlide(n) {
+      const slides = document.querySelector('.slides');
+      const total = slides.children.length;
+      index = (index + n + total) % total;
+      slides.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    function irASlide(n) {
+      index = n;
+      document.querySelector('.slides').style.transform = `translateX(-${n * 100}%)`;
+    }
+  </script>
+</head>
+
+<body>
+
+<header>
+  <nav>
+    <img src="Lumine.jpg" alt="Logo" class="logo">
+    <div class="nav-links">
+      <a href="#">Inicio</a>
+      <a href="secion.html">Login</a>
+      <a href="#galeria">Galería</a>
+      <a href="#video">Videos</a>
+      <a href="#imagen_relacion">Imagenes Relacionadas</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <!-- Sección INICIO -->
+  <section id="inicio">
+    <h1>¡Personajes Favoritos de Cada Juego de Hoyoverse!</h1>
+    <div class="inicio-container">
+      <img src="Imagenes inicio/Logo.jpg" alt="Principal" class="inicio-img">
+      <p>¡Estos son mis personajes favoritos de cada juego de Hoyoverse, ojo, MIS personajes! Cada uno de ellos me ha acompañado en distintas aventuras, batallas épicas y momentos inolvidables dentro de sus respectivos mundos. Elegí a estos personajes no solo por su fuerza o habilidades, sino también por sus historias, carisma y la conexión especial que siento con ellos. Para mí, representan lo mejor de cada universo creado por Hoyoverse, y forman parte importante de mi experiencia como jugador. ¡Espero que también les gusten y que compartan sus favoritos conmigo!</p>
+    </div>
+  </section>
+
+  <!-- Sección GALERIA -->
+  <section id="galeria">
+    <h1>Galería de Imágenes</h1>
+    <div class="gallery">
+      <div class="image-container">
+        <a href="personajesgenshin.html">
+          <img src="genshin.jpg" alt="Genshin Impact">
+        </a>
+        <h2>Genshin Impact</h2>
+        <p>Explora el mundo de Teyvat</p>
+      </div>
+
+      <div class="image-container">
+        <a href="perosnajeshonkaistar.html">
+          <img src="Honkai star.jpg" alt="Honkai Star Rail">
+        </a>
+        <h2>Honkai: Star Rail</h2>
+        <p>Aventuras estelares épicas</p>
+      </div>
+
+      <div class="image-container">
+        <a href="personajeshonakiimpact.html">
+          <img src="Honkai impact 3dr.jpg" alt="Honkai Impact 3rd">
+        </a>
+        <h2>Honkai Impact 3rd</h2>
+        <p>Batallas y emociones intensas</p>
+      </div>
+
+      <div class="image-container">
+        <a href="personajeszzz.html">
+          <img src="zzz.jpg" alt="ZZZ">
+        </a>
+        <h2>Zenless Zone Zero</h2>
+        <p>Acción urbana en un nuevo mundo</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección VIDEO -->
+  <section id="video">
+    <h1>¡Videos Relacionados!</h1>
+
+    <div class="video-item">
+      <h2>¿Qué es Hoyoverse?</h2>
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/ZC2YV8zg8IQ" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="video-item">
+      <h2>Tier list de Honkai: Star Rail</h2>
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/PcykYLSLA0M" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="video-item">
+      <h2>Tier list de Genshin Impact</h2>
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/Kaq0SzmK89Y" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="video-item">
+      <h2>Tier list de Honkai Impact 3rd</h2>
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/zFTsWkJJM6I" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="video-item">
+      <h2>Tier list de Zenless Zone Zero</h2>
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/A8AAxS_qyRE" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+    <a href="https://www.hoyoverse.com/es-es/?utm_source=hsr&utm_medium=footer" 
+      target="_blank" 
+      class="more-link">
+      Descubre más sobre Hoyoverse
+    </a>
+  </section>
+
+  <!-- Sección LOGROS -->
+  <section id="logros">
+    <h1>Logros de Cada Juego</h1>
+    <div class="gallery">
+      <div class="image-container">
+        <a href="https://www.filmaffinity.com/es/movie-awards.php?movie-id=936033">
+          <img src="Logros/Logros.jpg" alt="Logros Genshin">
+        </a>
+        <p>Genshin Impact</p>
+      </div>
+
+      <div class="image-container">
+        <a href="https://www.filmaffinity.com/es/movie-awards.php?movie-id=550286">
+          <img src="Logros/Logros hsr.jpg" alt="Logros HSR">
+        </a>
+        <p>Honkai: Star Rail</p>
+      </div>
+
+      <div class="image-container">
+        <a href="personajeshonkaiimpact.html">
+          <img src="Logros/Honkai impact.jpg" alt="Logros Honkai 3rd">
+        </a>
+        <p>Honkai Impact 3rd</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección IMÁGENES RELACIONADAS -->
+  <section id="imagen_relacion">
+    <h1>Imágenes Relacionadas</h1>
+    <div class="slider">
+      <div class="slides">
+        <img src="Mas imagenes/genshin.jpg" alt="Imagen 1">
+        <img src="Mas imagenes/genshinimpact.jpg" alt="Imagen 2">
+        <img src="Mas imagenes/genshintraje.jpg" alt="Imagen 3">
+        <img src="Mas imagenes/honkaistar.jpg" alt="Imagen 4">
+        <img src="Mas imagenes/honkaitraje.jpg" alt="Imagen 5">
+        <img src="Mas imagenes/honkaistarrail.jpg" alt="Imagen 6">
+        <img src="Mas imagenes/honkaiimpacy.jpg" alt="Imagen 7">
+        <img src="Mas imagenes/honkaiimpact.jpg" alt="Imagen 8">
+        <img src="Mas imagenes/honkaiimpact3.jpg" alt="Imagen 9">
+        <img src="Mas imagenes/zzz1.jpg" alt="Imagen 10">
+        <img src="Mas imagenes/zzz2.jpg" alt="Imagen 11">
+        <img src="Mas imagenes/zzz3.jpg" alt="Imagen 12">
+      </div>
+
+      <button class="prev" onclick="moverSlide(-1)">❮</button>
+      <button class="next" onclick="moverSlide(1)">❯</button>
+    </div>
+    <div class="dots">
+      <span class="dot" onclick="irASlide(0)"></span>
+      <span class="dot" onclick="irASlide(1)"></span>
+      <span class="dot" onclick="irASlide(2)"></span>
+    </div>
+  </section>
+
+  <!-- Sección CONTACTO -->
+  <section class="contact-section" id="contacto">
+    <h2>Contacto</h2>
+    <p>Email: contacto@ejemplo.com</p>
+    <p>Teléfono: +123 456 7890</p>
+  </section>
+
+</main>
+
+</body>
+</html>
